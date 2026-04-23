@@ -19,12 +19,20 @@ contadores[0].textContent = calculaTempo(tempoObjetivo1); //Antes
 
 contadores[0].textContent = calculaTempo(tempos[0]); // Depois
 // Para cada objetivo na lista de contadores
-for (let i = 0; i < contadores.length; i++) {
-  //Calcular o tempo usando a função e associá-lo ao objetivo
-  contadores[i].textContent = calculaTempo(tempos[i]);
+
+for (let i = 0; i < tempos.length; i++) {
+  document.getElementById("seg" + i).textContent = calculaTempo(tempos[i])[3];
 }
 
 function atualizaCronometro() {
+  document.getElementById("seg0").textContent = calculaTempo(tempos[0])[3];
+  document.getElementById("seg1").textContent = calculaTempo(tempos[1])[3];
+  document.getElementById("seg2").textContent = calculaTempo(tempos[2])[3];
+  document.getElementById("seg3").textContent = calculaTempo(tempos[3])[3];
+  for (let i = 0; i < contadores.length; i++) {
+    //contadores[i].textContent = calculaTempo(tempos[i]);
+  }
+}
   for (let i = 0; i < contadores.length; i++) {
     contadores[i].textContent = calculaTempo(tempos[i]);
   }
@@ -35,7 +43,6 @@ function comecaCronometro() {
 }
 
 //comecaCronometro();
-
 function calculaTempo(tempoObjetivo) {
   let tempoAtual = new Date();
   let tempoFinal = tempoObjetivo - tempoAtual;
@@ -43,37 +50,16 @@ function calculaTempo(tempoObjetivo) {
   let minutos = Math.floor(segundos / 60);
   let horas = Math.floor(minutos / 60);
   let dias = Math.floor(horas / 24);
-  return (
-    dias +
-    " dias " +
-    horas +
-    " horas " +
-    minutos +
-    " minutos " +
-    segundos +
-    " segundos"
-  );
+
+  segundos %= 60;
+  minutos %= 60;
+  horas %= 24;
+  if (tempoFinal > 0) {
+    return [dias, horas, minutos, segundos];
+  } else {
+    return [0, 0, 0, 0];
+  }
 }
-if (tempoFinal > 0) {
-  return (
-    dias +
-    " dias " +
-    horas +
-    " horas " +
-    minutos +
-    " minutos " +
-    segundos +
-    " segundos"
-  );
-} else {
-  return "Prazo Finalizado";
-}
-
-
-
-segundos %= 60;
-minutos %= 60;
-horas %= 24;
 
 for (let i = 0; i < botoes.length; i++) {
   botoes[i].onclick = function () {
